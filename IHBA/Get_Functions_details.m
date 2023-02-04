@@ -8,7 +8,7 @@
 
 function [lb,ub,dim,fobj] = Get_Functions_details(F)
 
-
+dim=1000;
 switch F
     case 'F1'
         fobj = @F1;
@@ -32,13 +32,12 @@ switch F
         fobj = @F4;
         lb=-100;
         ub=100;
-        dim=10;
+        
         
     case 'F5'
         fobj = @F5;
         lb=-30;
         ub=30;
-        dim=10;
         
     case 'F6'
         fobj = @F6;
@@ -50,13 +49,11 @@ switch F
         fobj = @F7;
         lb=-1.28;
         ub=1.28;
-        dim=10;
         
     case 'F8'
         fobj = @F8;
         lb=-500;
         ub=500;
-        dim=10;
         
     case 'F9'
         fobj = @F9;
@@ -80,13 +77,11 @@ switch F
         fobj = @F12;
         lb=-50;
         ub=50;
-        dim=10;
         
     case 'F13'
         fobj = @F13;
         lb=-50;
         ub=50;
-        dim=10;
         
     case 'F14'
         fobj = @F14;
@@ -146,7 +141,15 @@ switch F
         fobj = @F23;
         lb=0;
         ub=10;
-        dim=4;            
+        dim=4;  
+
+    case  'F37'
+            fobj = @F37;lb=-4;ub=4;dim=4;
+
+            %PowerSum,
+    case  'F38'
+            fobj = @F38;lb=0;ub=4;dim=4;
+
 end
 
 end
@@ -339,6 +342,34 @@ o=0;
 for i=1:10
     o=o-((x-aSH(i,:))*(x-aSH(i,:))'+cSH(i))^(-1);
 end
+end
+
+function o = F37(x)
+        dim=size(x,2);
+        b=0.5;
+        f1=0;
+        for i=1:dim
+            f2=0;
+            for j=1:dim
+                f2=f2+(j^i+b)*((x(j)/j)^i-1);
+            end
+            f1=f1+f2^2;
+        end
+        o=f1;
+end
+
+function o = F38(x)
+        dim=length(x);
+        b=[8,18,44,114];
+        f1=0;
+        for i=1:dim
+            f2=0;
+            for j=1:dim
+                f2=f2+x(j)^i;
+            end
+            f1=f1+(f2-b(i))^2;
+        end
+        o=f1;
 end
 
 function o=Ufun(x,a,k,m)
